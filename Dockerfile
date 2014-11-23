@@ -20,10 +20,10 @@ MAINTAINER Andrea Turli <andrea.turli@gmail.com>
 
 RUN echo 'root:password' | chpasswd
 
-ADD install-oracle-java7.sh ~
-ADD install-garuda-runtime.sh ~
+ADD install-oracle-java7.sh /
+ADD install-garuda-runtime.sh /
 
-RUN install-garuda-runtime.sh
+RUN sh -x /install-garuda-runtime.sh
 RUN apt-get -y install python-simplejson
 RUN apt-get install -y openssh-server supervisor vim
 
