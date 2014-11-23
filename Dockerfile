@@ -15,24 +15,26 @@
 # limitations under the License.
 #
 
-FROM ubuntu:12.04
-MAINTAINER Andrea Turli <andrea.turli@gmail.com>
-
-RUN echo 'root:password' | chpasswd
-
-ADD install-oracle-java7.sh /
-ADD install-garuda-runtime.sh /
-
-RUN sh -x /install-garuda-runtime.sh
-RUN apt-get -y install python-simplejson
-RUN apt-get install -y openssh-server supervisor vim
+FROM 299a3111c004cbbcfe0120cdd01607fefb5924a4df5c16a13f1c5cbe8107f90f
 
 RUN mkdir /var/run/sshd
-RUN mkdir -p /var/log/supervisor
 
-RUN wget https://www.dropbox.com/s/0macmkd23k3hap7/supervisord.conf
-RUN mv supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN mkdir -p /var/log/supervisor
+ADD supervisord.conf /etc/supervisor/conf.d/
 RUN chmod 644 /etc/supervisor/conf.d/supervisord.conf
+
+ADD felix /
+ADD felix-framework-4.4.0.tar /
+RUN mv felix /etc/init.d/felix
+RUN chmod 755 /etc/init.d/felix
+
+ADD appServerController /
+ADD ArvueAppServerController.tar /
+RUN mv appServerController /etc/init.d/appServerController
+RUN chmod 755 /etc/init.d/appServerController
+ 
+RUN update-rc.d felix defaults
+RUN update-rc.d appServerController defaults
 
 EXPOSE 22 5555 8000
 
