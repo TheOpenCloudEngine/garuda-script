@@ -33,7 +33,7 @@ RUN mkdir -p /var/log/supervisor
 RUN wget https://www.dropbox.com/s/0macmkd23k3hap7/supervisord.conf
 RUN mv supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod 644 /etc/supervisor/conf.d/supervisord.conf
- 
+
 EXPOSE 22 5555 8000
 
 CMD ["/usr/bin/supervisord"]
